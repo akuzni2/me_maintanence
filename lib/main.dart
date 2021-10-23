@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/patient/patient_login.dart';
+import 'package:me_maintanence/router_generator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,18 +18,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: MyHomePage(),
+      home: LoginPage(),
+      initialRoute: '/login',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-
+class LoginPage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
