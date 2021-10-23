@@ -4,12 +4,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/home/home_page.dart';
 
+import 'login_credentials.dart';
+
 class PatientLogin extends StatefulWidget {
   @override
   _PatientLoginState createState() => _PatientLoginState();
 }
 
 class _PatientLoginState extends State<PatientLogin> {
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
+  late LoginInfo loginInfo;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    userNameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textScale = MediaQuery.of(context).textScaleFactor;
@@ -38,6 +52,7 @@ class _PatientLoginState extends State<PatientLogin> {
                   child: SizedBox(
                     width: 300,
                     child: TextField(
+                      controller: userNameController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Username',
@@ -52,6 +67,7 @@ class _PatientLoginState extends State<PatientLogin> {
                   child: SizedBox(
                     width: 300,
                     child: TextField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -69,8 +85,9 @@ class _PatientLoginState extends State<PatientLogin> {
                       borderRadius: BorderRadius.circular(20)),
                   child: TextButton(
                     onPressed: () {
-                      print("pressed");
-                      Navigator.of(context).pushNamed("/home");
+                      loginInfo = LoginInfo(
+                          userNameController.text, passwordController.text);
+                      Navigator.of(context).pushNamed("/home", arguments: loginInfo);
                       // Navigator.push(
                       //     context, MaterialPageRoute(builder: (_) => HomePage()));
                     },
