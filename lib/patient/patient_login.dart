@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/home/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_credentials.dart';
 
@@ -85,11 +86,7 @@ class _PatientLoginState extends State<PatientLogin> {
                       borderRadius: BorderRadius.circular(20)),
                   child: TextButton(
                     onPressed: () {
-                      loginInfo = LoginInfo(
-                          userNameController.text, passwordController.text);
-                      Navigator.of(context).pushNamed("/home", arguments: loginInfo);
-                      // Navigator.push(
-                      //     context, MaterialPageRoute(builder: (_) => HomePage()));
+                      _handleLogin();
                     },
                     style: TextButton.styleFrom(primary: Colors.deepOrange),
                     child: Text(
@@ -106,6 +103,62 @@ class _PatientLoginState extends State<PatientLogin> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _handleLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    loginInfo = LoginInfo(userNameController.text, passwordController.text);
+
+    // Set when access for the first time
+    if (!prefs.containsKey("isLoggedIn")) {
+      prefs.setBool("isLoggedIn", false);
+    }
+
+    var loggedIn = prefs.getBool("isLoggedIn");
+
+    if (loggedIn != null) {
+      if (loggedIn) {
+        Navigator.of(context).pushNamed("/home", arguments: loginInfo);
+      } else {
+        print("Do Login here");
+
+        bool isValidLogin = _isCredentialValid(loginInfo);
+        if (isValidLogin) {
+          Navigator.of(context).pushNamed("/home", arguments: loginInfo);
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => _buildPopupDialog(context),
+          );
+        }
+      }
+    }
+  }
+
+  bool _isCredentialValid(LoginInfo loginInfo) {
+    //TODO - make MYSQL table for user and map to FHIR patient in HAPI
+    return true;
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("Incorrect username/password combination."),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 }
