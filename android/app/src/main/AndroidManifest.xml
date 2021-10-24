@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alex.me_maintanence">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="me_maintanence"
         android:icon="@mipmap/ic_launcher">

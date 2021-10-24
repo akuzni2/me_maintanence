@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/patient/patient_login.dart';
+import 'package:me_maintanence/login/login.dart';
 import 'package:me_maintanence/router_generator.dart';
 
 void main() {

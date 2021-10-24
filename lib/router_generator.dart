@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/home/home_page.dart';
-import 'package:me_maintanence/patient/login_credentials.dart';
-import 'package:me_maintanence/patient/patient_login.dart';
+import 'package:me_maintanence/login/login_credentials.dart';
+import 'package:me_maintanence/login/login.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

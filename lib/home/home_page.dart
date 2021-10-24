@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/patient/login_credentials.dart';
+import 'package:me_maintanence/login/login_credentials.dart';
+import 'package:me_maintanence/patient/patient_service.dart';
 
 class HomePage extends StatelessWidget {
   final LoginInfo loginInfo;
+  final PatientService patientService = MyPatientService();
 
   HomePage({
     Key? key,
@@ -14,8 +16,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-          child: Text("hi. Here is username: " + (loginInfo.username ?? ""),
-              style: TextStyle(color: Colors.black, fontSize: 24))),
+          child: OutlinedButton(
+        onPressed: () {
+          var response = patientService.getPatient();
+        },
+        child: Text("Click"),
+      )),
     );
   }
 }

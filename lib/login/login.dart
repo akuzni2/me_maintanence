@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/home/home_page.dart';
+import 'package:me_maintanence/login/login_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_credentials.dart';
@@ -107,6 +108,7 @@ class _PatientLoginState extends State<PatientLogin> {
   }
 
   Future<void> _handleLogin() async {
+    print("Handling Login. ");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     loginInfo = LoginInfo(userNameController.text, passwordController.text);
@@ -139,6 +141,8 @@ class _PatientLoginState extends State<PatientLogin> {
 
   bool _isCredentialValid(LoginInfo loginInfo) {
     //TODO - make MYSQL table for user and map to FHIR patient in HAPI
+    // LoginService loginService;
+    // loginService.isValidCredentials();
     return true;
   }
 
