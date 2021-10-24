@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
       child: Center(
           child: OutlinedButton(
         onPressed: () {
-          var response = patientService.getPatient();
+          patientService.getPatient();
         },
         child: Text("Click"),
       )),

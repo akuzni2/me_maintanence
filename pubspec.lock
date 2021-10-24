@@ -64,6 +64,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  fhir:
+    dependency: transitive
+    description:
+      name: fhir
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.7"
+  fhir_at_rest:
+    dependency: "direct main"
+    description:
+      name: fhir_at_rest
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.5"
+  fhir_yaml:
+    dependency: transitive
+    description:
+      name: fhir_yaml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2"
   file:
     dependency: transitive
     description:
@@ -93,6 +114,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.3"
   http:
     dependency: "direct main"
     description:
@@ -114,6 +142,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.0"
   lints:
     dependency: transitive
     description:
@@ -301,6 +336,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  yaml:
+    dependency: transitive
+    description:
+      name: yaml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
   flutter: ">=2.5.0"
