@@ -14,8 +14,8 @@ class MyPatientService extends PatientService {
     final response = await http
         .get(Uri.parse('http://hapi.fhir.org/baseR4/Patient/618773'));
 
-    // print("Respone code ${response.statusCode}");
-    // print("Response json ${response.body}");
+    print("Respone code ${response.statusCode}");
+    print("Response json ${response.body}");
 
     var patient = Patient.fromJson(jsonDecode(response.body));
 
