@@ -1,0 +1,1 @@
+CREATE DATABASE me-maintenance-db;

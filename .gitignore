@@ -9,6 +9,12 @@
 .history
 .svn/
 
+# Terraform
+*.tfstate
+*.tfstate.backup
+*.hcl
+*.terraform
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -44,3 +50,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/.aws/
+/.env
