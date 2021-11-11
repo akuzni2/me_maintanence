@@ -1,5 +1,6 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/login/login.dart';
+import 'package:me_maintanence/user/user_login.dart';
 import 'package:me_maintanence/router_generator.dart';
 
 void main() {
@@ -7,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -17,6 +18,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.grey,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          }
+        )
       ),
       home: LoginPage(),
       initialRoute: '/login',
@@ -35,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body:
-            PatientLogin() // This trailing comma makes auto-formatting nicer for build methods.
+            UserLogin() // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
 }

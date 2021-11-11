@@ -1,4 +1,5 @@
 class LoginInfo {
+
   String? username;
   String? password;
 

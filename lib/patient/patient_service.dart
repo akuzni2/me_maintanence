@@ -1,18 +1,23 @@
 import 'package:http/http.dart' as http;
-import 'package:fhir/r4.dart';
-import 'package:fhir_at_rest/r4.dart';
+import 'package:me_maintanence/patient/patient.dart';
 import 'dart:convert';
 
+import 'package:me_maintanence/user/user.dart';
+
 abstract class PatientService {
-  Future<void> getPatient();
+  Future<Patient> getPatient(User user);
+
+  Name getPatientName(Patient patient);
 }
 
 class MyPatientService extends PatientService {
-
   @override
-  Future<void> getPatient() async {
-    final response = await http
-        .get(Uri.parse('http://hapi.fhir.org/baseR4/Patient/618773'));
+  Future<Patient> getPatient(User user) async {
+    String uri = "${user.fhir_server_address}/Patient/${user.patient_id}";
+
+    print("Making API request to: $uri");
+
+    final response = await http.get(Uri.parse(uri));
 
     print("Respone code ${response.statusCode}");
     print("Response json ${response.body}");
@@ -22,7 +27,18 @@ class MyPatientService extends PatientService {
     print("patient birthdate: ${patient.birthDate}");
     print("patient name: ${patient.name!.first}");
     print("patient $patient");
-
+    return patient;
     // return response;
+  }
+
+  Name getPatientName(Patient patient) {
+    List<Name>? names = patient.name;
+
+    final name = names!.singleWhere((element) =>
+      element.use == 'official', orElse: (){
+        return names.first;
+    });
+    
+    return name;
   }
 }

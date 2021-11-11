@@ -2,21 +2,27 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/home/home_page.dart';
-import 'package:me_maintanence/login/login_service.dart';
+import 'package:me_maintanence/patient/patient.dart' as pt;
+import 'package:me_maintanence/patient/patient_service.dart';
+import 'package:me_maintanence/user/user.dart';
+import 'package:me_maintanence/user/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_credentials.dart';
 
-class PatientLogin extends StatefulWidget {
+class UserLogin extends StatefulWidget {
   @override
-  _PatientLoginState createState() => _PatientLoginState();
+  _UserLoginState createState() => _UserLoginState();
 }
 
-class _PatientLoginState extends State<PatientLogin> {
+class _UserLoginState extends State<UserLogin> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   late LoginInfo loginInfo;
+  late User user;
+  late pt.Patient patient;
+  final PatientService patientService = MyPatientService();
+
 
   @override
   void dispose() {
@@ -122,37 +128,40 @@ class _PatientLoginState extends State<PatientLogin> {
 
     if (loggedIn != null) {
       if (loggedIn) {
-        Navigator.of(context).pushNamed("/home", arguments: loginInfo);
+        Navigator.of(context).pushNamed("/home", arguments: patient);
       } else {
         print("Do Login here");
 
-        bool isValidLogin = _isCredentialValid(loginInfo);
-        if (isValidLogin) {
-          Navigator.of(context).pushNamed("/home", arguments: loginInfo);
-        } else {
+        try {
+          user = await _isCredentialValid(loginInfo);
+          patient = await patientService.getPatient(user);
+          Navigator.of(context).pushNamed("/home", arguments: patient);
+        } catch (e) {
+          print(e);
           showDialog(
             context: context,
-            builder: (BuildContext context) => _buildPopupDialog(context),
+            builder: (BuildContext context) => _buildErrorPopupDialog(context),
           );
         }
       }
     }
   }
 
-  bool _isCredentialValid(LoginInfo loginInfo) {
-    //TODO - make MYSQL table for user and map to FHIR patient in HAPI
-    // LoginService loginService;
-    // loginService.isValidCredentials();
-    return true;
+  Future<User> _isCredentialValid(LoginInfo loginInfo) async {
+    UserService userService = UserService();
+    print("hi");
+    var validUser = await userService.isValidCredential(loginInfo);
+    print("okay");
+    return validUser;
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget _buildErrorPopupDialog(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text("Incorrect username/password combination."),
+          Text("Provided username & password combination is incorrect."),
         ],
       ),
       actions: <Widget>[
