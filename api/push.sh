@@ -15,19 +15,19 @@ fi
 
 if [[ $env == "prd" ]]
 then
-  echo "Push to prod"
-  heroku container:push web --app me-maintenance
-  heroku container:release web --app me-maintenance
-  heroku logs --tail --app me-maintenance
+#  echo "Push to prod"
+#  heroku container:push web --app me-maintenance
+#  heroku container:release web --app me-maintenance
+#  heroku logs --tail --app me-maintenance
 fi
 
 if [[ $env == "stg" ]]
 then
   echo "Push to stage"
-  heroku container:push web --app me-maintenance-staging
-  heroku container:release web --app me-maintenance-staging
-  heroku ps:scale web=1 --app me-maintenance-staging # why isn't this done automatically?
-  heroku logs --tail --app me-maintenance-staging
+  heroku container:push web --app me-maintenance-api
+  heroku container:release web --app me-maintenance-api
+  heroku ps:scale web=1 --app me-maintenance-api # why isn't this done automatically?
+  heroku logs --tail --app me-maintenance-api
 fi
 
 if [[ $env == "local" ]]

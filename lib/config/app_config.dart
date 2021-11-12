@@ -9,7 +9,7 @@ class AppConfig {
       return "http://localhost:8000";
     } else if (kIsWeb) {
       return const String.fromEnvironment("API_URL",
-          defaultValue: "http://localhost:8000");
+          defaultValue: "https://me-maintenance-api.herokuapp.com");
     }
 
     print("Returning dummy API value - so it will be WRONG");
