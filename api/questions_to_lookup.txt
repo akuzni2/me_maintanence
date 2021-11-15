@@ -1,0 +1,5 @@
+How to show exact line where error came from? Stacktrace?
+How to properly do logging?
+How to set up controllers properly? Where to instantiate + where does the code go?
+How to properly do sql queries? How to get more information out when something isn't working?
+- https://stackoverflow.com/questions/31710692/sql-scan-error-on-column-index-38-destination-not-a-pointer

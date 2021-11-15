@@ -40,7 +40,7 @@ func (m *MysqlUserRepository) GetUser(username string) (*User, error) {
 		"SELECT * FROM users WHERE Username=$1",
 		username,
 	)
-	switch err := row.Scan(&user.Username, &user.Password, &user.Phone_numer, &user.Fhir_server_address, &user.Patient_id); err {
+	switch err := row.Scan(&user.Username, &user.Password, &user.PhoneNumer, &user.FhirServerAddress, &user.PatientId); err {
 	case sql.ErrNoRows:
 		fmt.Println("No rows were returned!")
 		return nil, err

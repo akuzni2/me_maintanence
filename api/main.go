@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/preventative_care"
 	"api/user"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -10,13 +11,15 @@ import (
 )
 
 func main() {
-
+	log.SetFlags(log.LstdFlags | log.Llongfile)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/api/login", user.LoginHandler).Methods("GET")
 	r.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		log.Println("Up and running!")
 	})
+
+	r.HandleFunc("/api/login", user.LoginHandler).Methods("GET")
+	r.HandleFunc("/api/recommendations", preventative_care.RecommendationHandler).Methods("GET")
 
 	var port = os.Getenv("PORT")
 
