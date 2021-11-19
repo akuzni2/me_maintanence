@@ -1,9 +1,0 @@
-// class PatientRepository {
-//
-//
-//   Patient getPatientById(){}
-//
-//
-//
-//
-// }

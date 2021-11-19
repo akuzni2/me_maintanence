@@ -116,6 +116,14 @@ class Patient {
     return map;
   }
 
+  // void getAge(){
+  //
+  //   birthDate
+  //
+  //
+  // }
+
+
 }
 
 /// coding : [{"system":"http://terminology.hl7.org/CodeSystem/v3-MaritalStatus","code":"M","display":"Married"}]

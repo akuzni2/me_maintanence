@@ -16,7 +16,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.Header.Get("Password")
 
 	user := s.GetUser(username)
-
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 
 	if user.Password != password {

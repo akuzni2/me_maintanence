@@ -15,10 +15,10 @@ fi
 
 if [[ $env == "prd" ]]
 then
-#  echo "Push to prod"
-#  heroku container:push web --app me-maintenance
-#  heroku container:release web --app me-maintenance
-#  heroku logs --tail --app me-maintenance
+  echo "Push to prod"
+  heroku container:push web --app me-maintenance
+  heroku container:release web --app me-maintenance
+  heroku logs --tail --app me-maintenance
 fi
 
 if [[ $env == "stg" ]]

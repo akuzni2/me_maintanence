@@ -13,7 +13,9 @@ var (
 )
 
 func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
+
 	var req RecommendedPreventativeCareItemRequest
 
 	var age string = r.Header.Get("age")
