@@ -12,17 +12,18 @@
 
 class Patient {
   Patient({
-      String? resourceType, 
-      String? id, 
-      Meta? meta, 
-      Text? text, 
-      List<Identifier>? identifier, 
-      List<Name>? name, 
-      String? gender, 
-      String? birthDate, 
-      List<Address>? address, 
-      MaritalStatus? maritalStatus, 
-      bool? multipleBirthBoolean,}){
+    String? resourceType,
+    String? id,
+    Meta? meta,
+    Text? text,
+    List<Identifier>? identifier,
+    List<Name>? name,
+    String? gender,
+    String? birthDate,
+    List<Address>? address,
+    MaritalStatus? maritalStatus,
+    bool? multipleBirthBoolean,
+  }) {
     _resourceType = resourceType;
     _id = id;
     _meta = meta;
@@ -34,7 +35,7 @@ class Patient {
     _address = address;
     _maritalStatus = maritalStatus;
     _multipleBirthBoolean = multipleBirthBoolean;
-}
+  }
 
   Patient.fromJson(dynamic json) {
     _resourceType = json['resourceType'];
@@ -61,9 +62,12 @@ class Patient {
         _address?.add(Address.fromJson(v));
       });
     }
-    _maritalStatus = json['maritalStatus'] != null ? MaritalStatus.fromJson(json['maritalStatus']) : null;
+    _maritalStatus = json['maritalStatus'] != null
+        ? MaritalStatus.fromJson(json['maritalStatus'])
+        : null;
     _multipleBirthBoolean = json['multipleBirthBoolean'];
   }
+
   String? _resourceType;
   String? _id;
   Meta? _meta;
@@ -77,15 +81,25 @@ class Patient {
   bool? _multipleBirthBoolean;
 
   String? get resourceType => _resourceType;
+
   String? get id => _id;
+
   Meta? get meta => _meta;
+
   Text? get text => _text;
+
   List<Identifier>? get identifier => _identifier;
+
   List<Name>? get name => _name;
+
   String? get gender => _gender;
+
   String? get birthDate => _birthDate;
+
   List<Address>? get address => _address;
+
   MaritalStatus? get maritalStatus => _maritalStatus;
+
   bool? get multipleBirthBoolean => _multipleBirthBoolean;
 
   Map<String, dynamic> toJson() {
@@ -116,14 +130,13 @@ class Patient {
     return map;
   }
 
-  // void getAge(){
-  //
-  //   birthDate
-  //
-  //
-  // }
+  int getAge() {
+    var ageDate = DateTime.parse(birthDate!);
 
+    var age = DateTime.now().year - ageDate.year;
 
+    return age;
+  }
 }
 
 /// coding : [{"system":"http://terminology.hl7.org/CodeSystem/v3-MaritalStatus","code":"M","display":"Married"}]
@@ -131,11 +144,12 @@ class Patient {
 
 class MaritalStatus {
   MaritalStatus({
-      List<Coding>? coding, 
-      String? text,}){
+    List<Coding>? coding,
+    String? text,
+  }) {
     _coding = coding;
     _text = text;
-}
+  }
 
   MaritalStatus.fromJson(dynamic json) {
     if (json['coding'] != null) {
@@ -146,10 +160,12 @@ class MaritalStatus {
     }
     _text = json['text'];
   }
+
   List<Coding>? _coding;
   String? _text;
 
   List<Coding>? get coding => _coding;
+
   String? get text => _text;
 
   Map<String, dynamic> toJson() {
@@ -160,7 +176,6 @@ class MaritalStatus {
     map['text'] = _text;
     return map;
   }
-
 }
 
 /// system : "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
@@ -169,25 +184,29 @@ class MaritalStatus {
 
 class Coding {
   Coding({
-      String? system, 
-      String? code, 
-      String? display,}){
+    String? system,
+    String? code,
+    String? display,
+  }) {
     _system = system;
     _code = code;
     _display = display;
-}
+  }
 
   Coding.fromJson(dynamic json) {
     _system = json['system'];
     _code = json['code'];
     _display = json['display'];
   }
+
   String? _system;
   String? _code;
   String? _display;
 
   String? get system => _system;
+
   String? get code => _code;
+
   String? get display => _display;
 
   Map<String, dynamic> toJson() {
@@ -197,7 +216,6 @@ class Coding {
     map['display'] = _display;
     return map;
   }
-
 }
 
 /// extension : [{"url":"latitude","valueDecimal":41.736170123512565},{"url":"longitude","valueDecimal":-71.24747720927182}]
@@ -207,15 +225,16 @@ class Coding {
 
 class Address {
   Address({
-      List<Extension>? extension, 
-      String? city, 
-      String? state, 
-      String? country,}){
+    List<Extension>? extension,
+    String? city,
+    String? state,
+    String? country,
+  }) {
     _extension = extension;
     _city = city;
     _state = state;
     _country = country;
-}
+  }
 
   Address.fromJson(dynamic json) {
     if (json['extension'] != null) {
@@ -228,14 +247,18 @@ class Address {
     _state = json['state'];
     _country = json['country'];
   }
+
   List<Extension>? _extension;
   String? _city;
   String? _state;
   String? _country;
 
   List<Extension>? get extension => _extension;
+
   String? get city => _city;
+
   String? get state => _state;
+
   String? get country => _country;
 
   Map<String, dynamic> toJson() {
@@ -248,7 +271,6 @@ class Address {
     map['country'] = _country;
     return map;
   }
-
 }
 
 /// url : "latitude"
@@ -256,20 +278,23 @@ class Address {
 
 class Extension {
   Extension({
-      String? url, 
-      double? valueDecimal,}){
+    String? url,
+    double? valueDecimal,
+  }) {
     _url = url;
     _valueDecimal = valueDecimal;
-}
+  }
 
   Extension.fromJson(dynamic json) {
     _url = json['url'];
     _valueDecimal = json['valueDecimal'];
   }
+
   String? _url;
   double? _valueDecimal;
 
   String? get url => _url;
+
   double? get valueDecimal => _valueDecimal;
 
   Map<String, dynamic> toJson() {
@@ -278,7 +303,6 @@ class Extension {
     map['valueDecimal'] = _valueDecimal;
     return map;
   }
-
 }
 
 /// use : "official"
@@ -288,15 +312,16 @@ class Extension {
 
 class Name {
   Name({
-      String? use, 
-      String? family, 
-      List<String>? given, 
-      List<String>? prefix,}){
+    String? use,
+    String? family,
+    List<String>? given,
+    List<String>? prefix,
+  }) {
     _use = use;
     _family = family;
     _given = given;
     _prefix = prefix;
-}
+  }
 
   Name.fromJson(dynamic json) {
     _use = json['use'];
@@ -304,14 +329,18 @@ class Name {
     _given = json['given'] != null ? json['given'].cast<String>() : [];
     _prefix = json['prefix'] != null ? json['prefix'].cast<String>() : [];
   }
+
   String? _use;
   String? _family;
   List<String>? _given;
   List<String>? _prefix;
 
   String? get use => _use;
+
   String? get family => _family;
+
   List<String>? get given => _given;
+
   List<String>? get prefix => _prefix;
 
   Map<String, dynamic> toJson() {
@@ -322,7 +351,6 @@ class Name {
     map['prefix'] = _prefix;
     return map;
   }
-
 }
 
 /// system : "http://hl7.org/fhir/sid/us-ssn"
@@ -330,20 +358,23 @@ class Name {
 
 class Identifier {
   Identifier({
-      String? system, 
-      String? value,}){
+    String? system,
+    String? value,
+  }) {
     _system = system;
     _value = value;
-}
+  }
 
   Identifier.fromJson(dynamic json) {
     _system = json['system'];
     _value = json['value'];
   }
+
   String? _system;
   String? _value;
 
   String? get system => _system;
+
   String? get value => _value;
 
   Map<String, dynamic> toJson() {
@@ -352,7 +383,6 @@ class Identifier {
     map['value'] = _value;
     return map;
   }
-
 }
 
 /// status : "generated"
@@ -360,20 +390,23 @@ class Identifier {
 
 class Text {
   Text({
-      String? status, 
-      String? div,}){
+    String? status,
+    String? div,
+  }) {
     _status = status;
     _div = div;
-}
+  }
 
   Text.fromJson(dynamic json) {
     _status = json['status'];
     _div = json['div'];
   }
+
   String? _status;
   String? _div;
 
   String? get status => _status;
+
   String? get div => _div;
 
   Map<String, dynamic> toJson() {
@@ -382,7 +415,6 @@ class Text {
     map['div'] = _div;
     return map;
   }
-
 }
 
 /// versionId : "1"
@@ -391,25 +423,29 @@ class Text {
 
 class Meta {
   Meta({
-      String? versionId, 
-      String? lastUpdated, 
-      String? source,}){
+    String? versionId,
+    String? lastUpdated,
+    String? source,
+  }) {
     _versionId = versionId;
     _lastUpdated = lastUpdated;
     _source = source;
-}
+  }
 
   Meta.fromJson(dynamic json) {
     _versionId = json['versionId'];
     _lastUpdated = json['lastUpdated'];
     _source = json['source'];
   }
+
   String? _versionId;
   String? _lastUpdated;
   String? _source;
 
   String? get versionId => _versionId;
+
   String? get lastUpdated => _lastUpdated;
+
   String? get source => _source;
 
   Map<String, dynamic> toJson() {
@@ -419,5 +455,4 @@ class Meta {
     map['source'] = _source;
     return map;
   }
-
 }

@@ -18,8 +18,9 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 
 	var req RecommendedPreventativeCareItemRequest
 
-	var age string = r.Header.Get("age")
-	var gender string = r.Header.Get("gender")
+
+	var age string = r.URL.Query().Get("age")
+	var gender string = r.URL.Query().Get("gender")
 
 	if age == "" || gender == "" {
 		http.Error(w, "Input parameters were incorrect", http.StatusBadRequest)

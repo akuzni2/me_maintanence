@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 class RecommendedCareItem {
-  late String id;
+  late int id;
+  late String title;
   late String searchTerm;
   late String description;
   late String gender;
@@ -10,9 +11,9 @@ class RecommendedCareItem {
   late bool isRecurring;
   late int annualInterval;
 
-  RecommendedCareItem.fromJson(String jsonString) {
-    Map<String, dynamic> map = jsonDecode(jsonString);
+  RecommendedCareItem.fromJson(Map<String, dynamic> map) {
     id = map['id'];
+    title = map['title'];
     searchTerm = map['searchTerm'];
     description = map['description'];
     gender = map['gender'];

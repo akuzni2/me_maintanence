@@ -19,7 +19,7 @@ class MyPatientService extends PatientService {
 
     final response = await http.get(Uri.parse(uri));
 
-    print("Respone code ${response.statusCode}");
+    print("Response code ${response.statusCode}");
     print("Response json ${response.body}");
 
     var patient = Patient.fromJson(jsonDecode(response.body));
@@ -31,6 +31,7 @@ class MyPatientService extends PatientService {
     // return response;
   }
 
+  @override
   Name getPatientName(Patient patient) {
     List<Name>? names = patient.name;
 

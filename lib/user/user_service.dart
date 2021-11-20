@@ -10,16 +10,15 @@ class UserService {
 
   Future<User> getUser(String username, String password) async {
     String baseUri = conf.getApiUrl();
-    String fullUri = baseUri + "/api/login";
+    Uri uri = Uri.https(conf.getApiUrl(), "/api/login");
     print("Calling api url [$baseUri]");
 
     Map<String, String> headers = {
-      "content-type": "application/json",
       "username": username,
       "password": password
     };
 
-    final response = await http.get(Uri.parse(fullUri), headers: headers);
+    final response = await http.get(uri, headers: headers);
 
     print("Got response from api: ${response.body}");
     print("Got response code from api: ${response.statusCode}");

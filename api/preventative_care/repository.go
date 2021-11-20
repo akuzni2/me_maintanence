@@ -51,7 +51,6 @@ func (r *mysqlRepository) GetPreventativeCareItems(req RecommendedPreventativeCa
 	var items []RecommendedPreventativeCareItem
 
 	for rows.Next() {
-		log.Println("Getting next row")
 		var item RecommendedPreventativeCareItem
 		var potentiallyNull sql.NullInt32
 		if err := rows.Scan(&item.Id, &item.SearchTerm, &item.Title, &item.Description,
@@ -73,6 +72,8 @@ func (r *mysqlRepository) GetPreventativeCareItems(req RecommendedPreventativeCa
 			return items, err
 		}
 	}
+
+	log.Printf("Found %s rows\n", len(items))
 
 	return items, nil
 
