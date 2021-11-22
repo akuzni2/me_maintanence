@@ -59,11 +59,10 @@ func (r *mysqlRepository) GetPreventativeCareItems(req RecommendedPreventativeCa
 			log.Println("Issue querying database got error: ", err)
 			return items, err
 		}
-		annualInterval := 0
+		item.AnnualInterval = 0
 		if potentiallyNull.Valid {
-			annualInterval = int(potentiallyNull.Int32)
+			item.AnnualInterval = int(potentiallyNull.Int32)
 		}
-		item.AnnualInterval = annualInterval
 
 		items = append(items, item)
 

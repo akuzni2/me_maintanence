@@ -1,16 +1,16 @@
 package preventative_care
 
 type RecommendedPreventativeCareItem struct {
-	Id             int    `json:"id,omitempty"`
-	SearchTerm     string `json:"searchTerm,omitempty"`
-	Title          string `json:"title,omitempty"`
-	Description    string `json:"description,omitempty"`
-	Gender         string `json:"gender,omitempty"`
-	AgeRangeMin    int    `json:"ageRangeMin,omitempty"`
-	AgeRangeMax    int    `json:"ageRangeMax,omitempty"`
-	SmokingHistory bool   `json:"smokingHistory,omitempty"`
-	Recurring      bool   `json:"isRecurring,omitempty"`
-	AnnualInterval int    `json:"annualInterval,omitempty"`
+	Id             int    `json:"id"`
+	SearchTerm     string `json:"searchTerm"`
+	Title          string `json:"title"`
+	Description    string `json:"description"`
+	Gender         string `json:"gender"`
+	AgeRangeMin    int    `json:"ageRangeMin"`
+	AgeRangeMax    int    `json:"ageRangeMax"`
+	SmokingHistory bool   `json:"smokingHistory"`
+	Recurring      bool   `json:"isRecurring"`
+	AnnualInterval int    `json:"annualInterval"`
 }
 
 type RecommendedPreventativeCareItemRequest struct {

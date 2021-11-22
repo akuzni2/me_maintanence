@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PatientService patientService = MyPatientService();
   final RecommendationService recommendationService = MyRecommendationService();
-  late List<RecommendedCareItem> recommendedItems;
+  late List<PreventativeCareItem> recommendedItems;
   bool loading = true;
 
   Future _loadDetails() async {
@@ -91,7 +91,8 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 20),
                       itemBuilder: (BuildContext ctx, index) {
                         print("Building index: $index");
-                        return PreventativeCareListItemWidget(recommendedItems[index]);
+                        return PreventativeCareListTile(
+                            recommendedItems[index]);
                       },
                       itemCount: recommendedItems.length)),
             ],

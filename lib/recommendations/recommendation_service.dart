@@ -7,7 +7,7 @@ import 'package:me_maintanence/recommendations/recommendation.dart';
 import 'package:http/http.dart' as http;
 
 abstract class RecommendationService {
-  Future<List<RecommendedCareItem>> getItems(Patient patient);
+  Future<List<PreventativeCareItem>> getItems(Patient patient);
 }
 
 class MyRecommendationService extends RecommendationService {
@@ -15,12 +15,12 @@ class MyRecommendationService extends RecommendationService {
   final logger = Logger();
 
   @override
-  Future<List<RecommendedCareItem>> getItems(Patient patient) async {
+  Future<List<PreventativeCareItem>> getItems(Patient patient) async {
     print("calling get items");
 
     String? gender = patient.gender;
 
-    List<RecommendedCareItem> items = List.empty();
+    List<PreventativeCareItem> items = List.empty();
 
     if (gender != null) {
       Map<String, String> queryParameters = {
@@ -46,7 +46,7 @@ class MyRecommendationService extends RecommendationService {
 
       print("items json ${itemsJson}");
 
-      items = itemsJson.map((e) => RecommendedCareItem.fromJson(e)).toList();
+      items = itemsJson.map((e) => PreventativeCareItem.fromJson(e)).toList();
 
     }
 

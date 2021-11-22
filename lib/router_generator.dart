@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/home/home_page.dart';
 import 'package:me_maintanence/patient/patient.dart' as pt;
+import 'package:me_maintanence/recommendations/preventative_care_screen.dart';
+import 'package:me_maintanence/recommendations/recommendation.dart';
 import 'package:me_maintanence/user/user_login.dart';
 
 class RouteGenerator {
@@ -9,6 +11,12 @@ class RouteGenerator {
     switch (settings.name) {
       case '/login':
         return MaterialPageRoute(builder: (_) => UserLogin());
+
+      case '/preventative-care':
+        final args = settings.arguments as PreventativeCareItem;
+        return MaterialPageRoute(builder: (_) => PreventativeCareScreen(
+          careItem: args,
+        ));
 
       case '/home':
         final args = settings.arguments as pt.Patient;

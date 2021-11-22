@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class RecommendedCareItem {
+class PreventativeCareItem {
   late int id;
   late String title;
   late String searchTerm;
@@ -11,7 +11,8 @@ class RecommendedCareItem {
   late bool isRecurring;
   late int annualInterval;
 
-  RecommendedCareItem.fromJson(Map<String, dynamic> map) {
+  PreventativeCareItem.fromJson(Map<String, dynamic> map) {
+    print("Got Json: $map");
     id = map['id'];
     title = map['title'];
     searchTerm = map['searchTerm'];
@@ -22,4 +23,18 @@ class RecommendedCareItem {
     isRecurring = map['isRecurring'];
     annualInterval = map['annualInterval'];
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'searchTerm': searchTerm,
+        'gender': gender,
+        'description': description,
+        'isRecurring': isRecurring,
+        'annualInterval': annualInterval,
+        'ageRangeMin': ageRangeMin,
+        'ageRangeMax': ageRangeMax
+      };
+
+  PreventativeCareItem();
 }
