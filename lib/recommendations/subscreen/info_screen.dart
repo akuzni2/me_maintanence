@@ -48,7 +48,6 @@ class PreventativeCareInfoScreen extends StatelessWidget {
   }
 
   String getAnnualIntervalText(PreventativeCareItem careItem) {
-    print(careItem.toJson());
     int interval = careItem.annualInterval;
     if (careItem.isRecurring) {
       if (interval >= 2) {

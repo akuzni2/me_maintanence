@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/recommendations/preventative_care_info_sub_screen.dart';
+import 'package:me_maintanence/recommendations/subscreen/info_screen.dart';
 import 'package:me_maintanence/recommendations/recommendation.dart';
+import 'package:me_maintanence/recommendations/subscreen/reminder_screen.dart';
 import 'package:me_maintanence/widgets/transparent_app_bar.dart';
 
 class PreventativeCareScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _PreventativeCareScreenState extends State<PreventativeCareScreen> {
             PreventativeCareInfoScreen(
               careItem: widget.careItem,
             ),
-            Icon(Icons.directions_transit),
+            ReminderScreen(),
             Icon(Icons.directions_bike),
           ],
         ),
