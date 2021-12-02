@@ -18,7 +18,6 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 
 	var req RecommendedPreventativeCareItemRequest
 
-
 	var age string = r.URL.Query().Get("age")
 	var gender string = r.URL.Query().Get("gender")
 
@@ -48,7 +47,7 @@ func RecommendationHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(&res)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("SOme issue with server: %s", err.Error()), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("Some issue with server: %s", err.Error()), http.StatusInternalServerError)
 		return
 	}
 

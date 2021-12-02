@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:me_maintanence/recommendations/preventative_care_item.dart';
 import 'package:me_maintanence/patient/patient.dart' as pt;
 import 'package:me_maintanence/patient/patient_service.dart';
+import 'package:me_maintanence/recommendations/preventative_care_item.dart';
 import 'package:me_maintanence/recommendations/recommendation.dart';
 import 'package:me_maintanence/recommendations/recommendation_service.dart';
+import 'package:me_maintanence/recommendations/recommendations_context.dart';
+import 'package:me_maintanence/reminders/reminder.dart';
 
 class HomePage extends StatefulWidget {
   final pt.Patient patient;
@@ -23,6 +25,9 @@ class _HomePageState extends State<HomePage> {
   final PatientService patientService = MyPatientService();
   final RecommendationService recommendationService = MyRecommendationService();
   late List<PreventativeCareItem> recommendedItems;
+  late List<RecommendationsContext> recCtxList;
+  late Map<int, ReminderItem> reminders;
+
   bool loading = true;
 
   Future _loadDetails() async {
@@ -32,6 +37,13 @@ class _HomePageState extends State<HomePage> {
     recommendedItems = await recommendationService.getItems(widget.patient);
     if (recommendedItems.isNotEmpty) {
       setState(() {
+        for (PreventativeCareItem item in recommendedItems) {
+          RecommendationsContext rctx = RecommendationsContext();
+          rctx.careItem = item;
+          rctx.patient = widget.patient;
+          recCtxList.add(rctx);
+        }
+
         loading = false;
         print("set loading to false");
       });
@@ -91,8 +103,10 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 20),
                       itemBuilder: (BuildContext ctx, index) {
                         print("Building index: $index");
-                        return PreventativeCareListTile(
-                            recommendedItems[index]);
+                        //TODO maybe store these as in list so we can pass these as ref using index?
+                        RecommendationsContext rctx = recCtxList[index];
+
+                        return PreventativeCareListTile(rctx);
                       },
                       itemCount: recommendedItems.length)),
             ],

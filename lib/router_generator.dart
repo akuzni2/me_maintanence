@@ -4,6 +4,7 @@ import 'package:me_maintanence/home/home_page.dart';
 import 'package:me_maintanence/patient/patient.dart' as pt;
 import 'package:me_maintanence/recommendations/preventative_care_screen.dart';
 import 'package:me_maintanence/recommendations/recommendation.dart';
+import 'package:me_maintanence/recommendations/recommendations_context.dart';
 import 'package:me_maintanence/user/user_login.dart';
 
 class RouteGenerator {
@@ -13,9 +14,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => UserLogin());
 
       case '/preventative-care':
-        final args = settings.arguments as PreventativeCareItem;
+        final args = settings.arguments as RecommendationsContext;
         return MaterialPageRoute(builder: (_) => PreventativeCareScreen(
-          careItem: args,
+          rctx: args,
         ));
 
       case '/home':

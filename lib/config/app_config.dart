@@ -7,6 +7,8 @@ class AppConfig {
   String getApiUrl() {
     // print("Default platform is: ${defaultTargetPlatform}");
 
+    // return "localhost:8000";
+
     if ((defaultTargetPlatform == TargetPlatform.iOS) ||
         (defaultTargetPlatform == TargetPlatform.android)) {
       // Some android/ios specific code

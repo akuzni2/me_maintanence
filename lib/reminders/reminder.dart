@@ -6,18 +6,16 @@ class ReminderItem {
 
   ReminderItem.fromJson(Map<String, dynamic> map) {
     id = map['id'];
-    preventative_care_id = map['preventative_care_id'];
+    preventative_care_id = map['preventativeCareId'];
     username = map['username'];
-    next_reminder_date_epoch = map['next_reminder_date_epoch'];
+    next_reminder_date_epoch = map['reminderDateEpoch'];
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'preventative_care_id': preventative_care_id,
+        'preventativeCareId': preventative_care_id,
         'username': username,
-        'next_reminder_date_epoch': next_reminder_date_epoch
+        'reminderDateEpoch': next_reminder_date_epoch
       };
 
   ReminderItem();
-
 }

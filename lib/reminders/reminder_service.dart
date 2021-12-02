@@ -56,14 +56,22 @@ class MyReminderService {
   }
 
   Future<void> createReminder(ReminderItem reminderItem) async {
+    print("callig create reminder service");
     final uri = Uri.https(
         conf.getApiUrl(), '/api/user/${reminderItem.username}/reminders');
+    print("reminder: ${reminderItem.toJson()}");
 
-    final response = await http.post(uri);
+    Map<String, String> headers = {'Content-type': 'application/json'};
+
+    final response =
+        await http.post(uri, body: jsonEncode(reminderItem.toJson()), headers: headers);
 
     if (response.statusCode != 200) {
       print("error creating item");
-      print("status code: ${response.statusCode}");
+      print("status code: ${response.statusCode} | msg ${response.body}");
+    } else {
+      print("successfully created reminder");
     }
+    print("calling complete");
   }
 }

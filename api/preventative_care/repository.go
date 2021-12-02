@@ -7,17 +7,6 @@ import (
 	"os"
 )
 
-var (
-	port     = 5432
-	user     = "main_user"
-	dbname   = "me_maintenance_db"
-	host     = os.Getenv("DB_HOST")
-	password = os.Getenv("DB_PW")
-	psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-)
-
 type Repository interface {
 	GetPreventativeCareItems(req RecommendedPreventativeCareItemRequest) ([]RecommendedPreventativeCareItem, error)
 }
@@ -83,3 +72,14 @@ func checkError(err error) {
 		fmt.Println("GOt error ", err)
 	}
 }
+
+var (
+	port     = 5432
+	user     = "main_user"
+	dbname   = "me_maintenance_db"
+	host     = os.Getenv("DB_HOST")
+	password = os.Getenv("DB_PW")
+	psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+)

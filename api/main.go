@@ -32,6 +32,12 @@ func main1() {
 	})
 
 	router.HandleFunc("/api/login", user.LoginHandler)
+
+	router.HandleFunc("/api/user/{user}/reminders", user.GetReminders).Methods("GET")
+	router.HandleFunc("/api/user/{user}/reminders", user.UpdateReminder).Methods("PUT")
+	router.HandleFunc("/api/user/{user}/reminders", user.CreateReminder).Methods("POST")
+	router.HandleFunc("/api/user/{user}/reminders/{reminder}", user.DeleteReminder).Methods("DELETE")
+
 	router.HandleFunc("/api/recommendations", preventative_care.RecommendationHandler).Methods("GET")
 
 	var port = os.Getenv("PORT")

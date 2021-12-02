@@ -5,3 +5,7 @@ How to properly do sql queries? How to get more information out when something i
 - https://stackoverflow.com/questions/31710692/sql-scan-error-on-column-index-38-destination-not-a-pointer
 
 How to implement OAuth/authentication on endpoint?
+
+If I create the class `Reminder` - where does the ARN go for a cloudwatch event? How does that fit into
+domain driven design?
+

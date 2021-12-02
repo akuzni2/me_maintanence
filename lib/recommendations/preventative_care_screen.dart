@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:me_maintanence/recommendations/recommendations_context.dart';
 import 'package:me_maintanence/recommendations/subscreen/info_screen.dart';
-import 'package:me_maintanence/recommendations/recommendation.dart';
 import 'package:me_maintanence/recommendations/subscreen/reminder_screen.dart';
-import 'package:me_maintanence/widgets/transparent_app_bar.dart';
 
 class PreventativeCareScreen extends StatefulWidget {
-  final PreventativeCareItem careItem;
+  final RecommendationsContext rctx;
 
-  const PreventativeCareScreen({Key? key, required this.careItem})
+  const PreventativeCareScreen({Key? key, required this.rctx})
       : super(key: key);
 
   @override
@@ -42,16 +41,18 @@ class _PreventativeCareScreenState extends State<PreventativeCareScreen> {
             ],
           ),
           title: Text(
-            widget.careItem.title,
+            widget.rctx.careItem.title,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         body: TabBarView(
           children: [
             PreventativeCareInfoScreen(
-              careItem: widget.careItem,
+              careItem: widget.rctx.careItem,
             ),
-            ReminderScreen(),
+            ReminderScreen(
+              rctx: widget.rctx,
+            ),
             Icon(Icons.directions_bike),
           ],
         ),
