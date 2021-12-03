@@ -48,19 +48,20 @@ func CreateReminder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = reminderService.AddReminder(reminder)
+	rem, err := reminderService.AddReminder(reminder)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		log.Printf("ERROR: Failed adding reminder %s ", err.Error())
 		return
 	}
 
+	err = json.NewEncoder(w).Encode(&rem)
+
 }
 
 func DeleteReminder(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	//username := vars["user"]
 	reminderId := vars["reminder"]
 	val, err := strconv.Atoi(reminderId)
 
@@ -84,7 +85,7 @@ func UpdateReminder(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Println("ERROR: Failed parsing request body")
+		log.Printf("ERROR: Failed parsing request body. Error was %s | body was %s",err.Error(), jsonBody)
 		return
 	}
 

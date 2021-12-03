@@ -1,5 +1,5 @@
 class ReminderItem {
-  late int id;
+  int? id;
   late int preventative_care_id;
   late String username;
   late int next_reminder_date_epoch;
@@ -11,11 +11,19 @@ class ReminderItem {
     next_reminder_date_epoch = map['reminderDateEpoch'];
   }
 
-  Map<String, dynamic> toJson() => {
-        'preventativeCareId': preventative_care_id,
-        'username': username,
-        'reminderDateEpoch': next_reminder_date_epoch
-      };
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> val = {
+      'preventativeCareId': preventative_care_id,
+      'username': username,
+      'reminderDateEpoch': next_reminder_date_epoch
+    };
+
+    if (id != null) {
+      val['id'] = id;
+    }
+
+    return val;
+  }
 
   ReminderItem();
 }

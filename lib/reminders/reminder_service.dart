@@ -25,7 +25,7 @@ class MyReminderService {
 
     itemsJson.forEach((element) {
       var reminderItem = ReminderItem.fromJson(element);
-      reminders.putIfAbsent(reminderItem.id, () => reminderItem);
+      reminders.putIfAbsent(reminderItem.id!, () => reminderItem);
     });
 
     return reminders;
@@ -35,7 +35,7 @@ class MyReminderService {
     final uri = Uri.https(conf.getApiUrl(),
         '/api/user/${reminderItem.username}/reminders/${reminderItem.id}');
 
-    final response = await http.get(uri);
+    final response = await http.delete(uri);
 
     if (response.statusCode != 200) {
       print("error deleting item");
@@ -47,7 +47,10 @@ class MyReminderService {
     final uri = Uri.https(
         conf.getApiUrl(), '/api/user/${reminderItem.username}/reminders');
 
-    final response = await http.put(uri);
+    Map<String, String> headers = {'Content-type': 'application/json'};
+
+    final response = await http.put(uri,
+        body: jsonEncode(reminderItem.toJson()), headers: headers);
 
     if (response.statusCode != 200) {
       print("error updating item");
@@ -55,16 +58,15 @@ class MyReminderService {
     }
   }
 
-  Future<void> createReminder(ReminderItem reminderItem) async {
+  Future<ReminderItem> createReminder(ReminderItem reminderItem) async {
     print("callig create reminder service");
     final uri = Uri.https(
         conf.getApiUrl(), '/api/user/${reminderItem.username}/reminders');
-    print("reminder: ${reminderItem.toJson()}");
 
     Map<String, String> headers = {'Content-type': 'application/json'};
 
-    final response =
-        await http.post(uri, body: jsonEncode(reminderItem.toJson()), headers: headers);
+    final response = await http.post(uri,
+        body: jsonEncode(reminderItem.toJson()), headers: headers);
 
     if (response.statusCode != 200) {
       print("error creating item");
@@ -72,6 +74,10 @@ class MyReminderService {
     } else {
       print("successfully created reminder");
     }
+
     print("calling complete");
+    var rem = ReminderItem.fromJson(jsonDecode(response.body));
+    print("created reminder: ${rem.toJson()}");
+    return rem;
   }
 }

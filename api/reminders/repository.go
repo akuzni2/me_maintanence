@@ -9,7 +9,7 @@ import (
 )
 
 type Repository interface {
-	Add(reminder Reminder) error
+	Add(reminder Reminder) (Reminder, error)
 	Update(reminder Reminder) error
 	GetAll(username string) ([]Reminder, error)
 	Delete(reminderId int) error
@@ -19,17 +19,20 @@ type mysqlRepository struct {
 	Conn *sql.DB
 }
 
-func (m mysqlRepository) Add(reminder Reminder) error {
+func (m mysqlRepository) Add(reminder Reminder) (Reminder, error) {
 	db, err := sql.Open("postgres", psqlInfo)
 	checkConnErr(err)
 	log.Println("Inserting into reminders table")
 	var cols = "(preventative_care_id, username, next_reminder_date_epoch)"
 	var values = "($1, $2, $3)"
-	var query = fmt.Sprintf("INSERT INTO %s %s VALUES %s", remindersTable, cols, values)
+	var query = fmt.Sprintf("INSERT INTO %s %s VALUES %s RETURNING id", remindersTable, cols, values)
 
-	_, err = db.Exec(query, reminder.PreventativeCareId, reminder.Username, reminder.ReminderDateEpoch)
+	lid := 0
+	err = db.QueryRow(query, reminder.PreventativeCareId, reminder.Username, reminder.ReminderDateEpoch).Scan(&lid)
 
-	return err
+	reminder.Id = int(lid)
+
+	return reminder, err
 
 }
 

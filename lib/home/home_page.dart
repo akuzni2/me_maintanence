@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   final PatientService patientService = MyPatientService();
   final RecommendationService recommendationService = MyRecommendationService();
   late List<PreventativeCareItem> recommendedItems;
-  late List<RecommendationsContext> recCtxList;
+  late List<RecommendationsContext> recCtxList = [];
   late Map<int, ReminderItem> reminders;
 
   bool loading = true;
@@ -103,7 +103,6 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 20),
                       itemBuilder: (BuildContext ctx, index) {
                         print("Building index: $index");
-                        //TODO maybe store these as in list so we can pass these as ref using index?
                         RecommendationsContext rctx = recCtxList[index];
 
                         return PreventativeCareListTile(rctx);

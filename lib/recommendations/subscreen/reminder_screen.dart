@@ -17,7 +17,6 @@ class ReminderScreen extends StatefulWidget {
 class _ReminderScreenState extends State<ReminderScreen>
     with AutomaticKeepAliveClientMixin {
   late DateTime _dateTime = DateTime.now();
-  bool reminderExists = false;
   bool keepAlive = true;
   MyReminderService reminderService = MyReminderService();
 
@@ -31,7 +30,7 @@ class _ReminderScreenState extends State<ReminderScreen>
   }
 
   Widget defaultDisplay() {
-    if (reminderExists) {
+    if (widget.rctx.reminderItem != null) {
       return Scaffold(
         body: Center(
           child: Column(
@@ -52,7 +51,6 @@ class _ReminderScreenState extends State<ReminderScreen>
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
@@ -65,13 +63,13 @@ class _ReminderScreenState extends State<ReminderScreen>
                     label: Text("Change Date"),
                     icon: Icon(Icons.calendar_today),
                     onPressed: () {
-                      selectDateTime();
+                      selectDateTime(true);
                     },
                   ),
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       textStyle: TextStyle(
                         fontSize: 15.0,
                       ),
@@ -79,7 +77,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                     label: Text("Delete Reminder"),
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      selectDateTime();
+                      deleteReminder();
                     },
                   ),
                 ],
@@ -93,7 +91,6 @@ class _ReminderScreenState extends State<ReminderScreen>
           ),
         ),
       );
-
     } else {
       return Align(
           alignment: Alignment.center,
@@ -107,28 +104,27 @@ class _ReminderScreenState extends State<ReminderScreen>
             label: Text("Select Date"),
             icon: Icon(Icons.calendar_today),
             onPressed: () {
-              selectDateTime();
+              selectDateTime(false);
             },
           ));
     }
   }
 
-  void selectDateTime() async {
+  void selectDateTime(bool isUpdate) async {
     final DateTime? pickedDateTime = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2100));
 
+    // User selected a Date
     if (pickedDateTime != null) {
       // If user picks a date it's happy path. If they only pick time it's not.
-      setState(() {
-        // Set a default TIME as well
-        _dateTime = DateTime(
-            pickedDateTime.year, pickedDateTime.month, pickedDateTime.day, 9);
-        reminderExists = true;
-        print("set state ${_dateTime.toLocal()}");
-      });
+
+      // Set a default TIME as well
+      _dateTime = DateTime(
+          pickedDateTime.year, pickedDateTime.month, pickedDateTime.day, 9);
+      print("set state ${_dateTime.toLocal()}");
 
       final TimeOfDay? selectedTime = await showTimePicker(
         initialTime: TimeOfDay.now(),
@@ -136,20 +132,20 @@ class _ReminderScreenState extends State<ReminderScreen>
       );
 
       if (selectedTime != null) {
-        setState(() {
-          _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-              selectedTime.hour, selectedTime.minute);
-        });
+        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+            selectedTime.hour, selectedTime.minute);
+      }
+      var reminder;
+      if (isUpdate) {
+        reminder = await updateReminder();
+      } else {
+        reminder = await createReminder();
       }
 
+      setState(() {
+        widget.rctx.reminderItem = reminder;
+      });
     }
-
-    saveDateTime();
-
-    // setState(() {
-    //   print("Setting widget care item title");
-    //   widget.careItem.title = "THIS WAS CHANGED";
-    // });
   }
 
   String getDateString(DateTime dateTime) {
@@ -158,13 +154,33 @@ class _ReminderScreenState extends State<ReminderScreen>
     return date + " " + time;
   }
 
-  void saveDateTime() {
+  void deleteReminder() {
+    setState(() {
+      print("Deleting remidner ${widget.rctx.reminderItem!.id}");
+      reminderService.deleteReminder(widget.rctx.reminderItem!);
+      widget.rctx.reminderItem = null;
+    });
+  }
+
+  Future<ReminderItem> updateReminder() async {
+    ReminderItem reminderItem = ReminderItem();
+    reminderItem.id = widget.rctx.careItem.id;
+    reminderItem.preventative_care_id = widget.rctx.careItem.id;
+    reminderItem.next_reminder_date_epoch = epochTime(_dateTime);
+    reminderItem.username = widget.rctx.patient.id!;
+
+    await reminderService.updateReminder(reminderItem);
+    return reminderItem;
+  }
+
+  Future<ReminderItem> createReminder() async {
     ReminderItem reminderItem = ReminderItem();
     reminderItem.preventative_care_id = widget.rctx.careItem.id;
     reminderItem.next_reminder_date_epoch = epochTime(_dateTime);
     reminderItem.username = widget.rctx.patient.id!;
 
-    reminderService.createReminder(reminderItem);
+    reminderItem = await reminderService.createReminder(reminderItem);
+    return reminderItem;
   }
 
   /// the current time, in “seconds since the epoch”

@@ -1,7 +1,7 @@
 package reminders
 
 type Service interface {
-	AddReminder(reminder Reminder) error
+	AddReminder(reminder Reminder) (Reminder, error)
 	GetReminders(username string) ([]Reminder, error)
 	UpdateReminder(reminder Reminder) error
 	DeleteReminder(reminderId int) error
@@ -11,9 +11,9 @@ type reminderService struct {
 	repository Repository
 }
 
-func (s reminderService) AddReminder(reminder Reminder) error {
-	err := s.repository.Add(reminder)
-	return err
+func (s reminderService) AddReminder(reminder Reminder) (Reminder, error) {
+	rem, err := s.repository.Add(reminder)
+	return rem, err
 }
 
 func (s reminderService) GetReminders(username string) ([]Reminder, error) {

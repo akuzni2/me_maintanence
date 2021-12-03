@@ -5,5 +5,5 @@ import 'package:me_maintanence/reminders/reminder.dart';
 class RecommendationsContext {
   late PreventativeCareItem careItem;
   late Patient patient;
-  late ReminderItem reminderItem;
+  ReminderItem? reminderItem;
 }
