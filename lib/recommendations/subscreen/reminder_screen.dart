@@ -37,7 +37,7 @@ class _ReminderScreenState extends State<ReminderScreen>
             children: [
               Container(
                 padding: EdgeInsets.all(15),
-                child: Text(
+                child: const Text(
                   "Your reminder is set for",
                   style: TextStyle(
                     fontSize: 25.0,
@@ -56,7 +56,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                     style: OutlinedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 15.0,
                       ),
                     ),
@@ -145,13 +145,20 @@ class _ReminderScreenState extends State<ReminderScreen>
       setState(() {
         widget.rctx.reminderItem = reminder;
       });
+
     }
   }
 
   String getDateString(DateTime dateTime) {
-    String date = "${_dateTime.toLocal()}".split(' ')[0];
-    String time = "${_dateTime.toLocal()}".split(' ')[1];
-    return date + " " + time;
+    String year = "${dateTime.year}";
+    String month = "${dateTime.month}";
+    String day = "${dateTime.day}";
+    String hour = "${dateTime.hour}";
+    String min = "${dateTime.minute}";
+
+    String time = "$year-$month-$day $hour:$min";
+
+    return time;
   }
 
   void deleteReminder() {
@@ -183,10 +190,10 @@ class _ReminderScreenState extends State<ReminderScreen>
     return reminderItem;
   }
 
-  /// the current time, in “seconds since the epoch”
+  /// the current time, in “milliseconds since the epoch”
   static int epochTime(DateTime datetime) {
     var ms = (datetime).millisecondsSinceEpoch;
-    return (ms / 1000).round();
+    return ms;
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:me_maintanence/recommendations/recommendation.dart';
 import 'package:me_maintanence/recommendations/recommendation_service.dart';
 import 'package:me_maintanence/recommendations/recommendations_context.dart';
 import 'package:me_maintanence/reminders/reminder.dart';
+import 'package:me_maintanence/reminders/reminder_service.dart';
 
 class HomePage extends StatefulWidget {
   final pt.Patient patient;
@@ -24,6 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PatientService patientService = MyPatientService();
   final RecommendationService recommendationService = MyRecommendationService();
+  final MyReminderService reminderService = MyReminderService();
   late List<PreventativeCareItem> recommendedItems;
   late List<RecommendationsContext> recCtxList = [];
   late Map<int, ReminderItem> reminders;
@@ -35,12 +37,17 @@ class _HomePageState extends State<HomePage> {
       loading = true;
     });
     recommendedItems = await recommendationService.getItems(widget.patient);
+    var reminders = await reminderService.getReminders(widget.patient);
+
     if (recommendedItems.isNotEmpty) {
       setState(() {
         for (PreventativeCareItem item in recommendedItems) {
           RecommendationsContext rctx = RecommendationsContext();
           rctx.careItem = item;
           rctx.patient = widget.patient;
+          if (reminders.containsKey(item.id)) {
+            rctx.reminderItem = reminders[item.id];
+          }
           recCtxList.add(rctx);
         }
 

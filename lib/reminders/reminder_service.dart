@@ -21,12 +21,15 @@ class MyReminderService {
 
     var resJson = json.decode(response.body);
 
-    var itemsJson = resJson['items'] as List;
+    var itemsJson = resJson['reminders'];
 
-    itemsJson.forEach((element) {
-      var reminderItem = ReminderItem.fromJson(element);
-      reminders.putIfAbsent(reminderItem.id!, () => reminderItem);
-    });
+    if (itemsJson != null) {
+      itemsJson.forEach((element) {
+        var reminderItem = ReminderItem.fromJson(element);
+        reminders.putIfAbsent(
+            reminderItem.preventative_care_id, () => reminderItem);
+      });
+    }
 
     return reminders;
   }
