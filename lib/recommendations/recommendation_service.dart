@@ -29,9 +29,9 @@ class MyRecommendationService extends RecommendationService {
       };
 
       final uri =
-          Uri.https(conf.getApiUrl(), '/api/recommendations', queryParameters);
+          Uri.https(conf.getApiUrl(), '/backend/recommendations', queryParameters);
 
-      print("making api call");
+      print("making backend call");
 
       final response = await http.get(uri);
 

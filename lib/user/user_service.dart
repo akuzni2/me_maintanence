@@ -10,8 +10,8 @@ class UserService {
 
   Future<User> getUser(String username, String password) async {
     String baseUri = conf.getApiUrl();
-    Uri uri = Uri.https(conf.getApiUrl(), "/api/login");
-    print("Calling api url [$baseUri]");
+    Uri uri = Uri.https(conf.getApiUrl(), "/backend/login");
+    print("Calling backend url [$baseUri]");
 
     Map<String, String> headers = {
       "username": username,
@@ -20,8 +20,8 @@ class UserService {
 
     final response = await http.get(uri, headers: headers);
 
-    print("Got response from api: ${response.body}");
-    print("Got response code from api: ${response.statusCode}");
+    print("Got response from backend: ${response.body}");
+    print("Got response code from backend: ${response.statusCode}");
 
     var user = User.fromJsonString(response.body);
 
