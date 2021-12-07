@@ -1,8 +1,9 @@
 package main
 
 import (
-	"api/preventative_care"
-	"api/user"
+	"api/pkg/preventative_care"
+	"api/pkg/user"
+	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -27,8 +28,9 @@ func main1() {
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 
-	router.HandleFunc("/hello", func(writer http.ResponseWriter, request *http.Request) {
+	router.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Up and running from main 1!")
+		w.Write([]byte("{\"hello\": \"world from hello function\"}"))
 	})
 
 	router.HandleFunc("/api/login", user.LoginHandler)
@@ -40,12 +42,12 @@ func main1() {
 
 	router.HandleFunc("/api/recommendations", preventative_care.RecommendationHandler).Methods("GET")
 
-	var port = os.Getenv("PORT")
+	var port = getEnv("PORT", "8000")
 
 	log.Printf("Starting application on port %s\n", port)
 
 	//log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.CORS(originsOk, headersOk, methodsOk)(router)))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s",port), handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 
 }
 
@@ -85,4 +87,11 @@ func main3() {
 	handler := c.Handler(mux)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), handler)
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }

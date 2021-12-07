@@ -1,7 +1,7 @@
 package user
 
 import (
-	"api/reminders"
+	reminders2 "api/pkg/reminders"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -13,7 +13,7 @@ import (
 
 var (
 	userService     = new(Service)
-	reminderService = reminders.NewService(reminders.NewRepository())
+	reminderService = reminders2.NewService(reminders2.NewRepository())
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 func CreateReminder(w http.ResponseWriter, r *http.Request) {
 
-	var reminder reminders.Reminder
+	var reminder reminders2.Reminder
 	bodyBytes, _ := ioutil.ReadAll(r.Body)
 	var jsonBody string = string(bodyBytes)
 	err := json.Unmarshal(bodyBytes, &reminder)
@@ -79,7 +79,7 @@ func UpdateReminder(w http.ResponseWriter, r *http.Request) {
 
 	bodyBytes, _ := ioutil.ReadAll(r.Body)
 
-	var reminder reminders.Reminder
+	var reminder reminders2.Reminder
 	err := json.Unmarshal(bodyBytes, &reminder)
 	var jsonBody string = string(bodyBytes)
 
@@ -108,7 +108,7 @@ func UpdateReminder(w http.ResponseWriter, r *http.Request) {
 
 func GetReminders(w http.ResponseWriter, r *http.Request) {
 
-	var resp reminders.GetRemindersResponse
+	var resp reminders2.GetRemindersResponse
 
 	vars := mux.Vars(r)
 	username := vars["user"]
