@@ -3,6 +3,7 @@ package reminders
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 	"log"
 	"os"
 	"strconv"
@@ -12,11 +13,55 @@ type Repository interface {
 	Add(reminder Reminder) (Reminder, error)
 	Update(reminder Reminder) error
 	GetAll(username string) ([]Reminder, error)
+	GetRemindersYoungerThan(epoch int64) ([]ReminderInformation, error)
 	Delete(reminderId int) error
 }
 
 type mysqlRepository struct {
 	Conn *sql.DB
+}
+
+func (m mysqlRepository) GetRemindersYoungerThan(epoch int64) ([]ReminderInformation, error) {
+
+	var items []ReminderInformation
+
+	db, err := sql.Open("postgres", psqlInfo)
+	checkConnErr(err)
+
+	var query = `
+				SELECT r.id, r.username, r.next_reminder_date_epoch, pc.title, 
+				pc.recurring, pc.annual_interval, u.phone_number
+				FROM reminders AS r
+				INNER JOIN recommended_preventative_services AS pc
+				ON pc.recommendation_id = r.preventative_care_id
+				INNER JOIN users AS u
+				ON cast(u.patient_id as varchar) = r.username
+				WHERE r.next_reminder_date_epoch < $1;
+				`
+
+	rows, err := db.Query(query, epoch)
+	defer rows.Close()
+	if err != nil {
+		log.Println("Issue querying database got error: ", err)
+		return nil, err
+	}
+
+	for rows.Next() {
+		var item ReminderInformation
+
+		err = rows.Scan(&item.Id, &item.Username, &item.NextReminderDateEpoch, &item.PreventativeCareTitle,
+			&item.Recurring, &item.AnnualInterval, &item.PhoneNumber)
+		if err = rows.Err(); err != nil {
+			log.Println("Issue scanning database got error: ", err)
+			return items, err
+		}
+
+		items = append(items, item)
+
+	}
+
+	return items, nil
+
 }
 
 func (m mysqlRepository) Add(reminder Reminder) (Reminder, error) {

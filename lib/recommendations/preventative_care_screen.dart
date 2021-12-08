@@ -27,7 +27,7 @@ class _PreventativeCareScreenState extends State<PreventativeCareScreen> {
     //   );
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -37,7 +37,7 @@ class _PreventativeCareScreenState extends State<PreventativeCareScreen> {
             tabs: [
               Tab(icon: Icon(Icons.info_outline), text: "Info"),
               Tab(icon: Icon(Icons.timer_outlined), text: "Reminder"),
-              Tab(icon: Icon(Icons.location_on_outlined), text: "Nearby"), // TODO figure out how to remove this
+              // Tab(icon: Icon(Icons.location_on_outlined), text: "Nearby"), // TODO figure out how to remove this
             ],
           ),
           title: Text(
@@ -53,7 +53,7 @@ class _PreventativeCareScreenState extends State<PreventativeCareScreen> {
             ReminderScreen(
               rctx: widget.rctx,
             ),
-            Icon(Icons.directions_bike),
+            // Icon(Icons.directions_bike),
           ],
         ),
       ),

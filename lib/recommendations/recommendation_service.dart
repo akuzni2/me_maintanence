@@ -29,7 +29,7 @@ class MyRecommendationService extends RecommendationService {
       };
 
       final uri =
-          Uri.https(conf.getApiUrl(), '/backend/recommendations', queryParameters);
+          Uri.https(conf.getApiUrl(), '/api/recommendations', queryParameters);
 
       print("making backend call");
 

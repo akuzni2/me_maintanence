@@ -12,7 +12,7 @@ class MyReminderService {
     Map<int, ReminderItem> reminders = {};
 
     final uri =
-        Uri.https(conf.getApiUrl(), '/backend/user/${patient.id}/reminders');
+        Uri.https(conf.getApiUrl(), '/api/user/${patient.id}/reminders');
 
     final response = await http.get(uri);
 
@@ -36,7 +36,7 @@ class MyReminderService {
 
   Future<void> deleteReminder(ReminderItem reminderItem) async {
     final uri = Uri.https(conf.getApiUrl(),
-        '/backend/user/${reminderItem.username}/reminders/${reminderItem.id}');
+        '/api/user/${reminderItem.username}/reminders/${reminderItem.id}');
 
     final response = await http.delete(uri);
 
@@ -48,7 +48,7 @@ class MyReminderService {
 
   Future<void> updateReminder(ReminderItem reminderItem) async {
     final uri = Uri.https(
-        conf.getApiUrl(), '/backend/user/${reminderItem.username}/reminders');
+        conf.getApiUrl(), '/api/user/${reminderItem.username}/reminders');
 
     Map<String, String> headers = {'Content-type': 'application/json'};
 
@@ -64,7 +64,7 @@ class MyReminderService {
   Future<ReminderItem> createReminder(ReminderItem reminderItem) async {
     print("callig create reminder service");
     final uri = Uri.https(
-        conf.getApiUrl(), '/backend/user/${reminderItem.username}/reminders');
+        conf.getApiUrl(), '/api/user/${reminderItem.username}/reminders');
 
     Map<String, String> headers = {'Content-type': 'application/json'};
 

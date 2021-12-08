@@ -10,7 +10,7 @@ class UserService {
 
   Future<User> getUser(String username, String password) async {
     String baseUri = conf.getApiUrl();
-    Uri uri = Uri.https(conf.getApiUrl(), "/backend/login");
+    Uri uri = Uri.https(conf.getApiUrl(), "/api/login");
     print("Calling backend url [$baseUri]");
 
     Map<String, String> headers = {
