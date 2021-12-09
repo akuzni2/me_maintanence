@@ -13,7 +13,7 @@ type Repository interface {
 	Add(reminder Reminder) (Reminder, error)
 	Update(reminder Reminder) error
 	GetAll(username string) ([]Reminder, error)
-	GetRemindersYoungerThan(epoch int64) ([]ReminderInformation, error)
+	GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInformation, error)
 	Delete(reminderId int) error
 }
 
@@ -21,7 +21,7 @@ type mysqlRepository struct {
 	Conn *sql.DB
 }
 
-func (m mysqlRepository) GetRemindersYoungerThan(epoch int64) ([]ReminderInformation, error) {
+func (m mysqlRepository) GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInformation, error) {
 
 	var items []ReminderInformation
 
@@ -30,13 +30,14 @@ func (m mysqlRepository) GetRemindersYoungerThan(epoch int64) ([]ReminderInforma
 
 	var query = `
 				SELECT r.id, r.username, r.next_reminder_date_epoch, pc.title, 
-				pc.recurring, pc.annual_interval, u.phone_number
+				pc.recurring, pc.annual_interval, u.phone_number, pc.id
 				FROM reminders AS r
 				INNER JOIN recommended_preventative_services AS pc
-				ON pc.recommendation_id = r.preventative_care_id
+				ON pc.id = r.preventative_care_id
 				INNER JOIN users AS u
 				ON cast(u.patient_id as varchar) = r.username
-				WHERE r.next_reminder_date_epoch < $1;
+				WHERE r.next_reminder_date_epoch < $1
+				AND r.completed = false;
 				`
 
 	rows, err := db.Query(query, epoch)
@@ -48,12 +49,17 @@ func (m mysqlRepository) GetRemindersYoungerThan(epoch int64) ([]ReminderInforma
 
 	for rows.Next() {
 		var item ReminderInformation
-
+		var potentiallyNullAnnualInterval sql.NullInt32
 		err = rows.Scan(&item.Id, &item.Username, &item.NextReminderDateEpoch, &item.PreventativeCareTitle,
-			&item.Recurring, &item.AnnualInterval, &item.PhoneNumber)
+			&item.Recurring, &potentiallyNullAnnualInterval, &item.PhoneNumber, &item.PreventativeCareId)
 		if err = rows.Err(); err != nil {
 			log.Println("Issue scanning database got error: ", err)
 			return items, err
+		}
+
+		item.AnnualInterval = 1
+		if potentiallyNullAnnualInterval.Valid {
+			item.AnnualInterval = float64(potentiallyNullAnnualInterval.Int32)
 		}
 
 		items = append(items, item)
@@ -68,12 +74,13 @@ func (m mysqlRepository) Add(reminder Reminder) (Reminder, error) {
 	db, err := sql.Open("postgres", psqlInfo)
 	checkConnErr(err)
 	log.Println("Inserting into reminders table")
-	var cols = "(preventative_care_id, username, next_reminder_date_epoch)"
-	var values = "($1, $2, $3)"
+	var cols = "(preventative_care_id, username, next_reminder_date_epoch, completed)"
+	var values = "($1, $2, $3, $4)"
 	var query = fmt.Sprintf("INSERT INTO %s %s VALUES %s RETURNING id", remindersTable, cols, values)
 
 	lid := 0
-	err = db.QueryRow(query, reminder.PreventativeCareId, reminder.Username, reminder.ReminderDateEpoch).Scan(&lid)
+	err = db.QueryRow(query, reminder.PreventativeCareId, reminder.Username,
+		reminder.ReminderDateEpoch, reminder.Completed).Scan(&lid)
 
 	reminder.Id = int(lid)
 
@@ -85,10 +92,10 @@ func (m mysqlRepository) Update(reminder Reminder) error {
 	db, err := sql.Open("postgres", psqlInfo)
 	checkConnErr(err)
 
-	var query = "UPDATE " + remindersTable + " SET next_reminder_date_epoch = $1 "
+	var query = "UPDATE " + remindersTable + " SET next_reminder_date_epoch = $1, completed = $2 "
 	query += "WHERE id = " + strconv.Itoa(reminder.Id)
 
-	_, err = db.Exec(query, reminder.ReminderDateEpoch)
+	_, err = db.Exec(query, reminder.ReminderDateEpoch, reminder.Completed)
 
 	return err
 
@@ -101,7 +108,7 @@ func (m mysqlRepository) GetAll(username string) ([]Reminder, error) {
 	db, err := sql.Open("postgres", psqlInfo)
 	checkConnErr(err)
 
-	var query = "SELECT id, username, preventative_care_id, next_reminder_date_epoch" +
+	var query = "SELECT id, username, preventative_care_id, next_reminder_date_epoch, completed" +
 		" FROM " + remindersTable +
 		" WHERE username = $1"
 
@@ -115,7 +122,7 @@ func (m mysqlRepository) GetAll(username string) ([]Reminder, error) {
 	for rows.Next() {
 		var item Reminder
 
-		err = rows.Scan(&item.Id, &item.Username, &item.PreventativeCareId, &item.ReminderDateEpoch)
+		err = rows.Scan(&item.Id, &item.Username, &item.PreventativeCareId, &item.ReminderDateEpoch, &item.Completed)
 		if err = rows.Err(); err != nil {
 			log.Println("Issue scanning database got error: ", err)
 			return items, err

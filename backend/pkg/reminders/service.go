@@ -13,7 +13,7 @@ type reminderService struct {
 }
 
 func (s reminderService) GetRemindersYoungerThan(epoch int64) ([]ReminderInformation, error) {
-	reminders, err := s.repository.GetRemindersYoungerThan(epoch)
+	reminders, err := s.repository.GetOpenRemindersPastDueDate(epoch)
 	return reminders, err
 }
 

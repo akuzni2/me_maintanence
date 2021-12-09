@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "reminder_scheduler_rule" {
   name                = "${aws_lambda_function.reminder_lambda.function_name}-scheduler"
   description         = "MR Reminder scheduler to invoke lambda function"
-  schedule_expression = "cron(0 5/12 ? * MON-SUN *)"
+  schedule_expression = "cron(* 0-6,12-23 * * ? *)"
   is_enabled          = true
 
 }

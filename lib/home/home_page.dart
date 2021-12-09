@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:me_maintanence/patient/patient.dart' as pt;
+import 'package:me_maintanence/patient/patient_screen.dart';
 import 'package:me_maintanence/patient/patient_service.dart';
 import 'package:me_maintanence/recommendations/preventative_care_item.dart';
 import 'package:me_maintanence/recommendations/recommendation.dart';
@@ -85,6 +86,20 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.blue,
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                tooltip: 'Increase volume by 10',
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          PatientScreen(patient: widget.patient)));
+                },
+              ),
+            ],
             title: Text(
               "${patientName.given!.first}",
               style: TextStyle(color: Colors.white, fontSize: 25),

@@ -25,5 +25,6 @@ CREATE TABLE reminders (
     preventative_care_id int,
     username varchar(64),
     next_reminder_date_epoch bigint,
+    completed boolean
 );
 

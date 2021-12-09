@@ -31,6 +31,9 @@ class _ReminderScreenState extends State<ReminderScreen>
 
   Widget defaultDisplay() {
     if (widget.rctx.reminderItem != null) {
+      _dateTime = DateTime.fromMillisecondsSinceEpoch(
+          widget.rctx.reminderItem!.next_reminder_date_epoch);
+
       return Scaffold(
         body: Center(
           child: Column(
@@ -145,7 +148,6 @@ class _ReminderScreenState extends State<ReminderScreen>
       setState(() {
         widget.rctx.reminderItem = reminder;
       });
-
     }
   }
 
@@ -154,7 +156,7 @@ class _ReminderScreenState extends State<ReminderScreen>
     String month = "${dateTime.month}";
     String day = "${dateTime.day}";
     String hour = "${dateTime.hour}";
-    String min = "${dateTime.minute}";
+    String min = dateTime.minute.toString().padLeft(2, '0');
 
     String time = "$year-$month-$day $hour:$min";
 

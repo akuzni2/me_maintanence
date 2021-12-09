@@ -102,6 +102,8 @@ class Patient {
 
   bool? get multipleBirthBoolean => _multipleBirthBoolean;
 
+  get given => null;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['resourceType'] = _resourceType;
