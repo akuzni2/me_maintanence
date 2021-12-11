@@ -58,7 +58,6 @@ class PreventativeCareInfoScreen extends StatelessWidget {
       } else if (numYears == 1) {
         return "It is recommended to perform this screening every year";
       } else {
-        int numberOfTimes = (1 / interval).round();
         return "It is recommended to perform this screening $interval times per year";
       }
     } else {
