@@ -49,7 +49,7 @@ func (m mysqlRepository) GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInf
 
 	for rows.Next() {
 		var item ReminderInformation
-		var potentiallyNullAnnualInterval sql.NullInt32
+		var potentiallyNullAnnualInterval sql.NullFloat64
 		err = rows.Scan(&item.Id, &item.Username, &item.NextReminderDateEpoch, &item.PreventativeCareTitle,
 			&item.Recurring, &potentiallyNullAnnualInterval, &item.PhoneNumber, &item.PreventativeCareId)
 		if err = rows.Err(); err != nil {
@@ -57,9 +57,9 @@ func (m mysqlRepository) GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInf
 			return items, err
 		}
 
-		item.AnnualInterval = 1
+		item.AnnualInterval = 1.0
 		if potentiallyNullAnnualInterval.Valid {
-			item.AnnualInterval = float64(potentiallyNullAnnualInterval.Int32)
+			item.AnnualInterval = potentiallyNullAnnualInterval.Float64
 		}
 
 		items = append(items, item)

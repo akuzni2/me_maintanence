@@ -41,16 +41,16 @@ func (r *mysqlRepository) GetPreventativeCareItems(req RecommendedPreventativeCa
 
 	for rows.Next() {
 		var item RecommendedPreventativeCareItem
-		var potentiallyNull sql.NullInt32
+		var potentiallyNull sql.NullFloat64
 		if err := rows.Scan(&item.Id, &item.SearchTerm, &item.Title, &item.Description,
 			&item.Gender, &item.AgeRangeMin, &item.AgeRangeMax, &item.SmokingHistory,
 			&item.Recurring, &potentiallyNull); err != nil {
 			log.Println("Issue querying database got error: ", err)
 			return items, err
 		}
-		item.AnnualInterval = 0
+		item.AnnualInterval = 0.0
 		if potentiallyNull.Valid {
-			item.AnnualInterval = int(potentiallyNull.Int32)
+			item.AnnualInterval = potentiallyNull.Float64
 		}
 
 		items = append(items, item)

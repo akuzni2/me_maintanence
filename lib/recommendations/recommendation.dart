@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class PreventativeCareItem {
   late int id;
   late String title;
@@ -9,7 +7,7 @@ class PreventativeCareItem {
   late int ageRangeMin;
   late int ageRangeMax;
   late bool isRecurring;
-  late int annualInterval;
+  late double annualInterval;
 
   PreventativeCareItem.fromJson(Map<String, dynamic> map) {
     print("Got Json: $map");
@@ -21,7 +19,9 @@ class PreventativeCareItem {
     ageRangeMin = map['ageRangeMin'];
     ageRangeMax = map['ageRangeMax'];
     isRecurring = map['isRecurring'];
-    annualInterval = map['annualInterval'];
+
+    // have to add 0.0. https://stackoverflow.com/questions/26417782/in-dart-is-there-a-quick-way-to-convert-int-to-double
+    annualInterval = map['annualInterval'] + 0.0;
   }
 
   Map<String, dynamic> toJson() => {

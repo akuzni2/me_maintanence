@@ -48,15 +48,18 @@ class PreventativeCareInfoScreen extends StatelessWidget {
   }
 
   String getAnnualIntervalText(PreventativeCareItem careItem) {
-    int interval = careItem.annualInterval;
+    double interval = careItem.annualInterval;
+
     if (careItem.isRecurring) {
-      if (interval >= 2) {
-        return "It is recommended to perform this screening every $interval years.";
-      } else if (interval == 1) {
+      num numYears = (1 / interval).round();
+      print("num years: $numYears");
+      if (numYears >= 2) {
+        return "It is recommended to perform this screening every $numYears years.";
+      } else if (numYears == 1) {
         return "It is recommended to perform this screening every year";
       } else {
         int numberOfTimes = (1 / interval).round();
-        return "It is recommended to perform this screening $numberOfTimes times per year";
+        return "It is recommended to perform this screening $interval times per year";
       }
     } else {
       return "It is recommended to perform this screening at least once. "
