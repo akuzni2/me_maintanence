@@ -26,6 +26,7 @@ func (m mysqlRepository) GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInf
 	var items []ReminderInformation
 
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkConnErr(err)
 
 	var query = `
@@ -72,6 +73,7 @@ func (m mysqlRepository) GetOpenRemindersPastDueDate(epoch int64) ([]ReminderInf
 
 func (m mysqlRepository) Add(reminder Reminder) (Reminder, error) {
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkConnErr(err)
 	log.Println("Inserting into reminders table")
 	var cols = "(preventative_care_id, username, next_reminder_date_epoch, completed)"
@@ -90,6 +92,7 @@ func (m mysqlRepository) Add(reminder Reminder) (Reminder, error) {
 
 func (m mysqlRepository) Update(reminder Reminder) error {
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkConnErr(err)
 
 	var query = "UPDATE " + remindersTable + " SET next_reminder_date_epoch = $1, completed = $2 "
@@ -106,6 +109,7 @@ func (m mysqlRepository) GetAll(username string) ([]Reminder, error) {
 	var items []Reminder
 
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkConnErr(err)
 
 	var query = "SELECT id, username, preventative_care_id, next_reminder_date_epoch, completed" +
@@ -139,6 +143,7 @@ func (m mysqlRepository) GetAll(username string) ([]Reminder, error) {
 func (m mysqlRepository) Delete(reminderId int) error {
 
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkConnErr(err)
 
 	var query = "DELETE FROM " + remindersTable +

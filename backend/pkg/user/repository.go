@@ -32,6 +32,7 @@ func (m *MysqlUserRepository) GetUser(username string) (*User, error) {
 
 	log.Println("Using connection: ", psqlInfo)
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkError(err)
 
 	var user User

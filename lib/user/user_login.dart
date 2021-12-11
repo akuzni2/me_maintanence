@@ -46,7 +46,7 @@ class _UserLoginState extends State<UserLogin> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 60.0),
-                  child: Text("Maintenance for ME",
+                  child: Text("Me Maintenance",
                       style: TextStyle(
                           color: Colors.black, fontSize: 40 * textScale)),
                 ),

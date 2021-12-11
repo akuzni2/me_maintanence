@@ -22,6 +22,7 @@ func NewRepository() Repository {
 func (r *mysqlRepository) GetPreventativeCareItems(req RecommendedPreventativeCareItemRequest) ([]RecommendedPreventativeCareItem, error) {
 
 	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
 	checkError(err)
 
 	var query = "SELECT *" +
