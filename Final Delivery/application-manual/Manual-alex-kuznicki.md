@@ -5,6 +5,11 @@
 - Get notified via SMS notification when the reminder is due.
 - Recurring reminders get automatically rescheduled based on the clinically recommended frequency.
 
+## Other Info
+- This was an individual project
+- Team members: Alex Kuznicki
+- Github link to project: https://github.gatech.edu/akuznicki3/me_maintanence
+
 # Accessing the Deployed Application
 
 App Link: https://me-maintenance-staging.herokuapp.com/
