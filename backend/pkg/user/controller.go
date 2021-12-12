@@ -35,6 +35,35 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+
+	var user User
+	bodyBytes, _ := ioutil.ReadAll(r.Body)
+	var jsonBody string = string(bodyBytes)
+	err := json.Unmarshal(bodyBytes, &user)
+
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error in request: %s", err.Error()), http.StatusBadRequest)
+		log.Println("ERROR: Failed parsing request body. Body was %s", jsonBody)
+		return
+	}
+
+	_, err = userService.CreateUser(&user)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Failed adding user. Error in request: %s", err.Error()), http.StatusBadRequest)
+		log.Printf("ERROR: Failed adding user %s ", err.Error())
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(&user)
+
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Some issue with server: %s", err.Error()), http.StatusInternalServerError)
+		return
+	}
+
+}
+
 func CreateReminder(w http.ResponseWriter, r *http.Request) {
 
 	var reminder reminders2.Reminder
@@ -85,7 +114,7 @@ func UpdateReminder(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Printf("ERROR: Failed parsing request body. Error was %s | body was %s",err.Error(), jsonBody)
+		log.Printf("ERROR: Failed parsing request body. Error was %s | body was %s", err.Error(), jsonBody)
 		return
 	}
 

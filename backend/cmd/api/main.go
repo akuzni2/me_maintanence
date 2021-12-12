@@ -34,7 +34,7 @@ func main1() {
 	})
 
 	router.HandleFunc("/api/login", user.LoginHandler)
-
+	router.HandleFunc("/api/user", user.CreateUser).Methods("POST")
 	router.HandleFunc("/api/user/{user}/reminders", user.GetReminders).Methods("GET")
 	router.HandleFunc("/api/user/{user}/reminders", user.UpdateReminder).Methods("PUT")
 	router.HandleFunc("/api/user/{user}/reminders", user.CreateReminder).Methods("POST")
@@ -47,7 +47,7 @@ func main1() {
 	log.Printf("Starting application on port %s\n", port)
 
 	//log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s",port), handlers.CORS(originsOk, headersOk, methodsOk)(router)))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 
 }
 

@@ -20,3 +20,13 @@ func (s *Service) GetUser(username string) *User {
 	return user
 
 }
+
+func (s *Service) CreateUser(user *User) (*User, error) {
+
+	err := s.repository.CreateUser(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, err
+}

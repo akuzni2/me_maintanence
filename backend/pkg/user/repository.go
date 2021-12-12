@@ -28,6 +28,27 @@ func NewMysqlUserRepository(Conn *sql.DB) *MysqlUserRepository {
 	return &MysqlUserRepository{Conn}
 }
 
+func (m *MysqlUserRepository) CreateUser(user *User) error {
+
+	db, err := sql.Open("postgres", psqlInfo)
+	defer db.Close()
+	checkError(err)
+	log.Println("Inserting into users table")
+	var cols = "(username, password, phone_number, fhir_server_address, patient_id)"
+	var values = "($1, $2, $3, $4, $5)"
+	var query = fmt.Sprintf("INSERT INTO %s %s VALUES %s ", "users", cols, values)
+
+	_, err = db.Exec(query, user.Username, user.Password, user.PhoneNumer,
+		user.FhirServerAddress, user.PatientId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (m *MysqlUserRepository) GetUser(username string) (*User, error) {
 
 	log.Println("Using connection: ", psqlInfo)
