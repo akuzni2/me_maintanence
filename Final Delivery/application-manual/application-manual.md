@@ -22,17 +22,16 @@ App Link: https://me-maintenance-staging.herokuapp.com/
   - username: maxima831_wilderman619
   - password: pizza
   
-These are patients that exist in the https://hapi.fhir.org FHIR server. They have worked consistently for me over the last few weeks. I have noticed before that the FHIR Server has gone down for maintenance before. I hope that will not happen when you try to again.
+These are patients that exist in the https://hapi.fhir.org FHIR server. They have worked consistently for me over the last few weeks. I have noticed before that the FHIR Server has gone down for maintenance before. I hope that will not happen when you try to use the app.
 
 I have also seen a previous test patient I was using get deleted from the server before. If you have trouble logging in, Verify that the patient exists in the FHIR server by making a GET Request for the patient using the patient ID I noted above. If that is the case, Please try to create a new patient using one of the above matched patient IDs that I have listed for the sample logins.
 
 ### Creating A New User
- you can create your own user if the above do not work. Additionally to test the reminder feature yourself and get SMS notifications you will need to do this so you can add your phone number. 
+You can create your own user if you want. Additionally to test the SMS reminder feature yourself and get SMS notifications you will need to do this so you can add your phone number. 
  
- > **NOTE**: I have asked AWS support for a service limit increase on SNS text messaging. Currently only my phone number is allowed so that is why the test patients use my phone number. I am not sure when AWS will resolve my case but hope they do by the time you try to create one.
+ > **NOTE**: I have asked AWS support for a service limit increase on SNS text messaging. Currently AWS only allows my phone number so that is why the test patients use my phone number. I am not sure when AWS will resolve my case but hope they do by the time you try to create a test user.
 
  Use the below request to create a user. Copy and paste in your terminal and execute.
-
 
 ```
 curl --header "Content-Type: application/json" \
@@ -40,6 +39,7 @@ curl --header "Content-Type: application/json" \
   --data '{"username":"wxyz","password":"xyz", "phone_number":"+xxxxxxxxxxx", "fhir_server_address":"https://hapi.fhir.org/baseR4", "patient_id":"1234"  }' \
   http://me-maintenance-api.herokuapp.com/api/user
 ```
+
 - The phone number must be in E.164 format. 
 - All fields are required. 
 - The patient ID must match to an existing patient in the FHIR server address. 
