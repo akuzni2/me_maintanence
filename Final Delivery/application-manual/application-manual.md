@@ -99,15 +99,17 @@ Although the application should be deployed to Heroku already here are the steps
   -  Connect to the RDS database and run the SQL Scripts from here `me_maintanence/infra/rds/tables/`. Make sure to run them in the order that they are numbered.  
 - Then run the `reminder` Configuration
 
-1) Create yourself 2 new Heroku Projects that use container run times.
+3) Create yourself 2 new Heroku Projects that use container run times.
    
-2) Update the `me_maintanence/push.sh` file With  one of the Heroku Project names in the CLI commands (replacing the ones for my project.) - Then run the script specifying
+4) Update the `me_maintanence/push.sh` file With one of the Heroku Project that u created names in the CLI commands (replacing the ones for my project.) - Then run the script. This is for the web App deployment.
 
-3) update `me_maintanence/backend/push-api.sh` file With the other Heroku Project name in the CLI commands (replacing the ones for my project.) This will be for the API. - Then run the script 
+5) update `me_maintanence/backend/push-api.sh` file With the other Heroku Project name in the CLI commands (replacing the ones for my project.) This will be for the API. - Then run the script. Add environment variables `DB_HOST` (rds database hostname) and `DB_PW` (database password).  
 
-4) Update `me_maintanence/lib/config/app_config.dart`. Replace the API URL From mine to yours that you created in step 5.
+6) Update `me_maintanence/lib/config/app_config.dart`. Replace the API URL From mine to yours that you created in step 5.
 
-5) Update `me_maintanence/backend/push-reminder.sh` With the S3 bucket that you use specified in the terraform. -  Then run the script.
+7) Update `me_maintanence/backend/push-reminder.sh` With the S3 bucket that you use specified in the terraform. -  Then run the script.
+
+8) Launch the app at the heroku project name that you created and specified in step 4.
 
 
 
