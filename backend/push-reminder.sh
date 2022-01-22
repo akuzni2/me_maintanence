@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 env=$1
+account=$2 # this is the aws account number
 
 if [[ $env == "" ]]
 then
@@ -20,7 +21,7 @@ then
   GOOS=linux go build -o reminder-function cmd/reminder-lambda/main.go
   zip reminder-function.zip reminder-function
   echo "updating s3 artifact with file"
-  aws s3 cp reminder-function.zip s3://account-870029572904-artifacts/reminder-lambda/
+  aws s3 cp reminder-function.zip s3://account-${account}-artifacts/reminder-lambda/
   aws lambda update-function-code \
       --function-name reminder_lambda \
       --zip-file fileb://reminder-function.zip

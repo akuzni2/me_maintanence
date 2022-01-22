@@ -4,7 +4,7 @@ resource "aws_lambda_function" "reminder_lambda" {
   handler = "reminder-function"
   runtime = "go1.x"
   role = aws_iam_role.lambda_role.arn
-  s3_bucket = "account-870029572904-artifacts"
+  s3_bucket = var.tf_state_bucket
   timeout = 300
   s3_key = "reminder-lambda/reminder-function.zip"
   environment {

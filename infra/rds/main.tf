@@ -6,7 +6,7 @@ provider "aws" {
 terraform {
   required_version = ">= 1.0.10"
   backend "s3" {
-    bucket = "account-870029572904-tfstate"
+    bucket = var.tf_state_bucket
     key = "me-maintenance/rds.tfstate"
     region = "us-east-1"
   }

@@ -1,4 +1,4 @@
-# Me Maintanence 
+# Me Maintenance 
 - Get personalized recommended preventative care and preventative screenings based on FHIR patient data.
 - Create, update, and delete reminders for those items.
 - Get notified via SMS notification when the reminder is due.
@@ -10,7 +10,10 @@
 ## Application Architecture
 <img src="docs/documentation/architecture.png " alt="drawing" width="75%"/>
 
-Implemented using Go + Dart/Flutter.
+### Components
+- API layer - Go
+- Reminder Lambda - Go
+- Mobile App/ Front End - Dart + Flutter
 
 ## Accessing the Deployed Application
 1. Clone the project
@@ -20,6 +23,7 @@ Implemented using Go + Dart/Flutter.
    - Create APK and launch to an Android device
 
 ### Sample Users:
+**Note** The users are only created after setting up the DB and running the provided sql scripts.
 - user 1: (**fhir_patient_id: 1653603**)
     - username: daniel_moya
     - password: pizza
@@ -55,7 +59,7 @@ curl --header "Content-Type: application/json" \
 A successful request will show  something similar to the below response.
  ```
 > POST /api/user HTTP/1.1
-> Host: me-maintenance-api.herokuapp.com
+> Host: <api-url>
 > User-Agent: curl/7.71.1
 > Accept: */*
 > Content-Type: application/json
@@ -72,7 +76,6 @@ A successful request will show  something similar to the below response.
 < Via: 1.1 vegur
 < 
 {"username":"wxyz","password":"xyz","phone_number":"+xxxxxxxxxxx","fhir_server_address":"https://hapi.fhir.org/baseR4","patient_id":"1234"}
-* Connection #0 to host me-maintenance-api.herokuapp.com left intact
  ```
 
 A successful response still does not mean it will be a valid user. You will have to have followed the format that I've shown above exactly, With a corrected formal phone number and existing FHIR patient.
@@ -95,7 +98,9 @@ A successful response still does not mean it will be a valid user. You will have
 -  select the delete reminder button
 
 ## Deploying the application
-Although the application should be deployed to Heroku already here are the steps to deploy from scratch.
+**NOTE** The project WAS deployed on heroku previously because of some previous requirements. I am currently migrating this to AWS.
+
+Old steps for heroku deployment.
 
 1) Clone the git repo
 
