@@ -5,15 +5,17 @@
 - Recurring reminders get automatically rescheduled based on the clinically recommended frequency.
 
 ## Application Screens
-<img src="docs/documentation/screens.png " alt="drawing" width="75%"/>
+<img src="docs/documentation/screens.png " alt="drawing" width="85%"/>
 
 ## Application Architecture
-<img src="docs/documentation/architecture.png " alt="drawing" width="75%"/>
+<img src="docs/documentation/architecture.png " alt="drawing" width="85%"/>
 
 ### Components
-- API layer - Go
-- Reminder Lambda - Go
-- Mobile App/ Front End - Dart + Flutter
+- API layer (under `/backend`) - Go
+- Reminder Lambda (under `/backend`) - Go
+- Mobile App/ Front End (under `/lib`) - Dart + Flutter
+- AWS terraform components (under `/infra`) - Terraform
+- DB Schema (under `/infra`)
 
 ## Accessing the Deployed Application
 1. Clone the project
